@@ -1,0 +1,33 @@
+.Login {
+    text-align: center;
+}
+
+.Login-logo {
+    height: 40vmin;
+}
+
+.Login-header {
+    background-color: #282c34;
+    min-height: 77vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.Login-body {
+    background-color:darkslategrey;
+    min-height: 23vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+    color:white;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#username, #password, #userid {
+    padding-right: 10px;
+}
