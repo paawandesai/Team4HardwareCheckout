@@ -3,7 +3,7 @@ import './CreateAccount.css';
 import React, { useState } from 'react';
 
 
-function Login() {
+function CreateAccount() {
     /*
     const [formData, setFormData] = useState({
       username: '',
@@ -11,7 +11,8 @@ function Login() {
     });*/
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('this should change');
+    const [userID, setUserID] = useState('');
+    const [message, setMessage] = useState('');
   /*
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -28,11 +29,11 @@ function Login() {
 
         
         try {
-          const response = await fetch("/testing", {
+          const response = await fetch("/create", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             //mode: "cors",
-            body: JSON.stringify({"username":username, "password":password})
+            body: JSON.stringify({"username":username, "password":password, "userID":userID})
           });
     
           const data = await response.json();
@@ -51,11 +52,11 @@ function Login() {
 
 
     return (
-      <div>
+      <form onSubmit={onClick}>
         <div className="Create">
             <header className="Create-header">
                 <img src={logo} className="Create-logo" alt="logo"/>
-                <h1>Create a new Account</h1>
+                <h1>Create New Account</h1>
             </header>
             <body className='Create-body'>
             <div>
@@ -69,21 +70,33 @@ function Login() {
                 />
             </div>
             <div>
+                <label htmlFor="userID">UserID:</label>
+                <input
+                    value={userID}
+                    name="userID"
+                    id="userID"
+                    onChange={e => setUserID(e.target.value)}
+                    required
+                />
+            </div>
+            <div>
                 <label htmlFor="password">Password:</label>
                 <input
+                 
                     value={password}
                     name="password"
+                    type="password"
                     id="password"
                     onChange={e => setPassword(e.target.value)}
                     required
                 />
             </div>
-            <button OnClick={onClick}>Submit</button>
+            <button type="submit">Submit</button>
             </body>
         </div>
-      </div>
+      </form>
     );
   }
 
   
-export default Login;
+export default CreateAccount;
