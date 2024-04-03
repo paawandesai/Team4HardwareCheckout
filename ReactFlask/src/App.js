@@ -1,124 +1,90 @@
-import { useState } from 'react';
 
-export default function Form() {
+import React from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Login from "./Login"
+import Projects from "./Projects";
+import ProjectMgmt from "./ProjectMgmt";
+import Project from "./Project";
 
-/*name holds user input and lastName handles output from server
-these values are maintained as stateful with setter methods to keep them updated
-
-*/
-const [name, setName] = useState('');
-const [lastname, setLastName] = useState('');
-
-/*error is the boolean value we use as flag to display either an error response or success response
-submitted is the boolean value we use to indicate if input was valid. It only works for empty string responses for now
-these are also stateful values with setter methods
-*/
-const [submitted, setSubmitted] = useState(false);
-const [error, setError] = useState(false);
-/*This method handles the change of input
-
-*/
-const handleName = (e) => {
-	setName(e.target.value);
-	setSubmitted(false);
-};
-
-
-
-/*This method triggers on submit. It calls the backend endpoint to get last name
-The backend only accepts one input in any other case it returns a 404 with a custom error message
-
-in case of a 200 we set seterror as false
-
-*/
-const handleSubmit = (e) => {
-	e.preventDefault();
-	if (name === '' ) {
-	setError(true);
-	} else {
-	setSubmitted(true);
-  var fetchURL="/getLastName/" + name
-  fetch(fetchURL)
-  
-  .then((response) => response.text())
-  //.then((data) => console.log(data))
-  .then(function(data){
-    data=JSON.parse(data);
-
-    if(data.code===200)
-    {
-    setLastName(data.name)
-    setError(false);
-    }
-    else{
-      setError(true);
-      setLastName("response code: " + data.code + " and message recieved: " + data.error);
-    }
-  });
-  
-	}
-};
-
-/* We use this method when we get a 200 response 
-
-
-*/
-const successMessage = () => {
-	return (
-    <>
-	<div
-		className="success"
-		style={{
-		display: submitted ? '' : 'none',
-		}}>
-		<p >Response from backend: "{lastname}"</p>
-	</div>
-  </>
-	);
-};
-
-/* we use this when we get a 404
-
-
-*/
-const errorMessage = () => {
-	return (
-	<div
-		className="error"
-		style={{
-		display: error ? '' : 'none',
-		}}>
-		<p >Please enter a valid first name</p>
-	</div>
-	);
-};
-
-return (
-	<div className="form">
-	<div>
-		<h3>Enter First Name.'</h3>
-	</div>
-
-	
-
-	<form>
-		{}
-		<label id="lbl" className="label">First Name: </label>
-		<input id="inp" onChange={handleName} className="input"
-		value={name} type="text" />
-
-	
-
-
-
-		<button onClick={handleSubmit} className="btn" type="submit" id="btn">
-		Submit
-		</button>
-	</form>
-  <div className="messages">
-		{errorMessage()}
-		{successMessage()}
-	</div>
-	</div>
-);
+// React-Router 
+function App() {
+  return (
+    <div>
+       <Router>
+        <Routes>
+          <Route path="/" exact element={<Login/>}></Route>
+          <Route path="/projects/" element={ <Projects/>}></Route>
+          <Route path="/projectMgmt/" element={ <ProjectMgmt/>}></Route>
+          <Route path="/project/:projectID" element={ <Project/>}></Route>
+        </Routes>
+      </Router>
+    </div>
+  );
 }
+
+
+
+// The following two functions are the example of React-Router 
+// function Layout() {
+//   return (
+//     <>
+//       <Navbar bg="dark" expand="sm" variant="dark">
+//         <Nav>
+//         <LinkContainer to="/">
+//           <Nav.Link>Home</Nav.Link>
+//         </LinkContainer>
+//         <LinkContainer to="/about">
+//           <Nav.Link>About</Nav.Link>
+//         </LinkContainer>
+//         <LinkContainer to="/products">
+//           <Nav.Link>Products</Nav.Link>
+//         </LinkContainer>
+//         </Nav>
+//       </Navbar>
+//       <main>
+
+//         <Outlet></Outlet>
+//       </main>
+
+    
+//     </>
+//     );
+// }
+
+// This function is the example of Layout for React-Router-Hooks deck
+// function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={<Layout />}>
+//           <Route path="about" element={<About />} />
+//           <Route path="products" element={<Products />} />
+//           <Route path="*" element={<PageNotFound />} />
+//         </Route>
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+
+// These two functions are created for React-Router : 
+// function User() {
+//   const { name } = useParams();
+//   return <div>User Name: {name}</div>;
+// }
+
+// function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/home" element={<Home />}></Route>
+//         <Route path="/users/:name" element={<User />}></Route>
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+
+
+export default App;
