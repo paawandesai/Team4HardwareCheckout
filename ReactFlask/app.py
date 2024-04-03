@@ -162,7 +162,7 @@ def checkIn():
     qty = data['qty']
     number = data['number']
 
-    uri = "mongodb+srv://paawankdesai:Team4Checkout@hardwarecheckout.akclwow.mongodb.net/?retryWrites=true&w=majority&appName=HardwareCheckout"
+    uri = "mongodb+srv://testing-user:PBjy3HBmoe7gierR@hardwarecheckout.akclwow.mongodb.net/?retryWrites=true&w=majority&appName=HardwareCheckout"
     client = pymongo.MongoClient(uri)
     db = client.ProjectDatabse
     HWsets = db.HardwareSets
@@ -195,7 +195,7 @@ def checkOut():
     projectID = data['projectID']
     qty = data['qty']
 
-    uri = "mongodb+srv://paawankdesai:Team4Checkout@hardwarecheckout.akclwow.mongodb.net/?retryWrites=true&w=majority&appName=HardwareCheckout"
+    uri = "mongodb+srv://testing-user:PBjy3HBmoe7gierR@hardwarecheckout.akclwow.mongodb.net/?retryWrites=true&w=majority&appName=HardwareCheckout"
     client = pymongo.MongoClient(uri)
     db = client.ProjectDatabse
     HWsets = db.HardwareSets
