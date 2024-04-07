@@ -18,6 +18,7 @@ function CreateAccount() {
     const [password, setPassword] = useState('');
     const [userID, setUserID] = useState('');
     const [message, setMessage] = useState('');
+    const [verified, setVerified] = useState("false")
   /*
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -32,17 +33,24 @@ function CreateAccount() {
         //setMessage('Credentials verified!');
         console.log("Button was clicked")
 
+        e.preventDefault()
         
         try {
-          const response = await fetch("/create-account", {
+          const response = await fetch("/create-account/", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             //mode: "cors",
-            body: JSON.stringify({"username":username, "password":password, "userID":userID})
+            body: JSON.stringify(
+              {"username":username, 
+              "password":password, 
+              "userID":userID})
           });
     
           const data = await response.json();
-          if (data.verified) {
+          if (data.verified){
+            setVerified(true)
+          }
+          if (verified) {
             navigate("/projects/")
           } else {
             setMessage('Invalid username or password.');

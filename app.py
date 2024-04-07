@@ -19,15 +19,70 @@ def hello_world(firstName):
         errorM = {"error": "User Not Found", "code": 404}
         return jsonify(errorM), 404
 """
+names = {("t","v","t"),("s","t","s")}
 
+def encrypt(inputText, N, D):
+    reverseInput = inputText[::-1]
+    output = ""
+    match D:
+        case 1:
+            for i in reverseInput:
+                if(ord(i) != 32 or ord(i) != 33):
+                    outChr = ord(i) + N
+                    if(outChr > 126):
+                        outChr = outChr - 93
+                    output = output + chr(outChr)
+                else:
+                    output[i] = i
+            return output
+        case -1:
+            for i in reverseInput:
+                if(ord(i) != 32 or ord(i) != 33):
+                    outChr = ord(i) - N
+                    if(outChr < 34):
+                        outChr = 126 - (33 - outChr)
+                    output = output + chr(outChr)
+                else:
+                    output[i] = i
+            return output
+        case _:
+            return "invalid direction"
+
+def decrypt(inputText, N, D):
+    unReversedText = inputText[::-1]
+    output = ""
+    match D:
+        case -1:
+            for i in unReversedText:
+                if(ord(i) != 32 or ord(i) != 33):
+                    outChr = ord(i) + N
+                    if(outChr > 126):
+                        outChr = outChr - 93
+                    output = output + chr(outChr)
+                else:
+                    output[i] = i
+            return output
+        case 1:
+            for i in unReversedText:
+                if(ord(i) != 32 or ord(i) != 33):
+                    outChr = ord(i) - N
+                    if(outChr < 34):
+                        outChr = 126 - (33 - outChr)
+                    output = output + chr(outChr)
+            else:
+                output[i] = i
+            return output
+        case _:
+            return "invalid direction"
 
 @app.route("/", methods=["GET"])
 def index():
     return send_from_directory(app.static_folder, "index.html")
 
 
-@app.route('/create-account', methods=["POST"])
+@app.route('/create-account/', methods=["POST"])
 def create_acc():
+    print("acc creation page")
     data = request.json
     usernameInput = data['username']
     userIDInput = data['userID']
@@ -35,17 +90,26 @@ def create_acc():
 
     uri = "mongodb+srv://testing-user:PBjy3HBmoe7gierR@hardwarecheckout.akclwow.mongodb.net/?retryWrites=true&w=majority&appName=HardwareCheckout"
     client = pymongo.MongoClient(uri)
-    db = client.ProjectDatabase
+    db = client.ProjectDatabse
     users = db.Users
+
+    encrypted_password = encrypt(passwordInput, 1, 1)
 
     new_user = {
         "username":usernameInput,
         "userID":userIDInput,
-        "password":passwordInput
+        "password":encrypted_password
     }
 
-    x = users.insert_one(new_user)
-    client.close()
+    x = users.find_one(new_user)
+
+    if not x:
+        users.insert_one(new_user)
+        client.close()
+        return jsonify({'verified':True})
+    else:
+        client.close()
+        return jsonify({'verified':False})
 
 @app.route('/login/', methods=["POST"])
 def find_name():
@@ -64,10 +128,12 @@ def find_name():
     db = client.ProjectDatabse
     users = db.Users
     
+    encrypted_password = encrypt(passwordInput, 1, 1)
+
     myquery = {
                 "username":usernameInput,
                 "userID":userIDInput,
-                "password":passwordInput
+                "password":encrypted_password
                 }
     
     
@@ -84,8 +150,6 @@ def find_name():
 @app.route('/createProject/', methods=["POST"])
 def create_project():
     print('request working')
-    
-
     data = request.json
     nameInput = data['name']
     descInput = data['description']
