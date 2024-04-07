@@ -1,9 +1,14 @@
 import logo from './dbArt.png';
 import './CreateAccount.css';
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 
 function CreateAccount() {
+
+    const navigate = useNavigate();
+
     /*
     const [formData, setFormData] = useState({
       username: '',
@@ -29,7 +34,7 @@ function CreateAccount() {
 
         
         try {
-          const response = await fetch("/create", {
+          const response = await fetch("/create-account", {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             //mode: "cors",
@@ -38,7 +43,7 @@ function CreateAccount() {
     
           const data = await response.json();
           if (data.verified) {
-            setMessage('Credentials verified!');
+            navigate("/projects/")
           } else {
             setMessage('Invalid username or password.');
           }

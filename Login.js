@@ -2,7 +2,6 @@ import logo from './dbArt.png';
 import './Login.css';
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function Login() {
 
@@ -94,7 +93,8 @@ function Login() {
             </p>
             </body>
         </div>
-      </form>
+        <p>{message}</p>
+        </form>
     );
   }
 

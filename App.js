@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./Login"
 import Projects from "./Projects";
-import CreateAccount from "./CreateAccount";
 
 // React-Router 
 function App() {
