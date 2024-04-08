@@ -1,8 +1,7 @@
 # Team4HardwareCheckout
 
-Introduction:
-The project aims to develop a Proof of Concept (PoC) for a web application implementing a Hardware-as-a-Service (HaaS) system. 
-The HaaS system allows users to create and manage secure accounts, projects, and hardware resources.
+Installation:
+Install bootstrap, material ui, flask_cors, flask, react router dom 
 
 The following Stakeholder Needs (SN) have been identified:
 SN1: Create and maintain secure user accounts and projects on the system.
